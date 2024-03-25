@@ -1,4 +1,5 @@
 import {
+  FlatList,
   ScrollView,
   StyleSheet,
   Text,
@@ -18,6 +19,8 @@ interface Props {
   setSortedCoffee: (data: any) => void;
   coffeeList: any;
   categoryIndex: CategoryIndex;
+  listRef: React.MutableRefObject<FlatList<any> | undefined>;
+  setRenderKey: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const filterCoffeeData = (category: string, data: any) => {
@@ -39,6 +42,11 @@ const MenuBar: React.FC<Props> = props => {
           <TouchableOpacity
             style={styles.categoryScrollViewItem}
             onPress={() => {
+              props?.listRef?.current?.scrollToOffset({
+                animated: true,
+                offset: 0,
+              });
+              props.setRenderKey(Math.random());
               props?.setCategoryIndex({
                 index,
                 category: props?.categories[index],

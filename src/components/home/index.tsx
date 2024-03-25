@@ -1,5 +1,12 @@
-import {ScrollView, StatusBar, StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import {
+  FlatList,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import React, {useRef, useState} from 'react';
 import {useStore} from '../../store/store';
 import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
 import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../../theme/theme';
@@ -47,9 +54,10 @@ const Home = () => {
   const [sortEdCoffee, setSortedCoffee] = useState(
     filterCoffeeData(categoryIndex.category, CoffeeList),
   );
-  console.log('sortEdCoasdffee', sortEdCoffee);
 
+  const listRef: any = useRef<FlatList>();
   const tabBarHeight = useBottomTabBarHeight();
+  const [renderKey, setRenderKey] = useState(1);
   return (
     <View style={styles.screenContainer}>
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
@@ -67,18 +75,24 @@ const Home = () => {
 
         {/* category scroller  */}
         <MenuBar
+          listRef={listRef}
           categories={categories}
           setCategoryIndex={setCategoryIndex}
           setSortedCoffee={setSortedCoffee}
           coffeeList={CoffeeList}
           categoryIndex={categoryIndex}
+          setRenderKey={setRenderKey}
         />
 
         {/* coffee flat list  */}
-        <CustomList data={sortEdCoffee} />
+        <CustomList key={renderKey} listRef={listRef} data={sortEdCoffee} />
         <Text style={styles.coffeeBeansTitle}>Coffee Beans</Text>
         {/* coffee beans flat list  */}
-        <CustomList data={BeanList} cusStyles={{marginBottom: tabBarHeight}} />
+        <CustomList
+          listRef={listRef}
+          data={BeanList}
+          cusStyles={{marginBottom: tabBarHeight}}
+        />
       </ScrollView>
     </View>
   );

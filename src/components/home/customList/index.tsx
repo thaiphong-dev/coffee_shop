@@ -19,11 +19,15 @@ import CoffeeCard from '../../common/CoffeeCard';
 interface Props {
   data: any;
   cusStyles?: any;
+  listRef: any;
 }
-const CustomList: React.FC<Props> = ({data, cusStyles}) => {
+const CustomList: React.FC<Props> = ({data, cusStyles, listRef}) => {
+  console.log('listRef', listRef);
+
   return (
     <>
       <FlatList
+        ref={listRef}
         horizontal
         showsHorizontalScrollIndicator={false}
         data={data}
