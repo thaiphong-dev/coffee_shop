@@ -15,7 +15,7 @@ import {
   FONTFAMILY,
   FONTSIZE,
   SPACING,
-} from '../theme/theme';
+} from '../../theme/theme';
 import Icon from 'react-native-vector-icons/Ionicons';
 import BGIcon from './BGIcon';
 
@@ -34,8 +34,6 @@ interface Props {
 
 const CARD_WIDTH = Dimensions.get('window').width * 0.32;
 const CoffeeCard: React.FC<Props> = props => {
-  console.log('props', props.prices);
-
   return (
     <LinearGradient
       start={{x: 0, y: 0}}

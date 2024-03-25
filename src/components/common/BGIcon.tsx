@@ -1,6 +1,6 @@
 import {StyleSheet, View} from 'react-native';
 import React from 'react';
-import {BORDERRADIUS, SPACING} from '../theme/theme';
+import {BORDERRADIUS, SPACING} from '../../theme/theme';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 interface Props {

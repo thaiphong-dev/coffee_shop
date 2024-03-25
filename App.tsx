@@ -1,9 +1,9 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
-import DetailScreen from './src/screens/DetailScreen';
-import PaymentScreens from './src/screens/PaymentScreens';
+import DetailScreen from './src/screens/detailScreen';
+import PaymentScreens from './src/screens/paymentScreens';
 import TabNavigator from './src/navigators/TabNavigator';
 
 const Stack = createNativeStackNavigator();
@@ -32,5 +32,3 @@ const App = () => {
 };
 
 export default App;
-
-const styles = StyleSheet.create({});
