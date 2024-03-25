@@ -139,7 +139,7 @@ const HomeScreen = () => {
           horizontal
           showsHorizontalScrollIndicator={false}
           data={sortEdCoffee}
-          contentContainerStyle={styles.flatListConffee}
+          contentContainerStyle={styles.flatListCoffee}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
             <TouchableOpacity>
@@ -152,7 +152,36 @@ const HomeScreen = () => {
                 name={item.name}
                 special_ingredient={item.special_ingredient}
                 average_rating={item.average_rating}
-                price={item.price}
+                prices={item.prices[2]}
+                buttonPressHandler={() => {}}
+              />
+            </TouchableOpacity>
+          )}
+        />
+
+        <Text style={styles.coffeeBeansTitle}>Coffee Beans</Text>
+        {/* coffee beans flat list  */}
+        <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={BeanList}
+          contentContainerStyle={[
+            styles.flatListCoffee,
+            {marginBottom: tabBarHeight},
+          ]}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => (
+            <TouchableOpacity>
+              <CoffeeCard
+                id={item.id}
+                index={item.index as string}
+                type={item.type}
+                roasted={item.roasted}
+                imagelink_square={item.imagelink_square}
+                name={item.name}
+                special_ingredient={item.special_ingredient}
+                average_rating={item.average_rating}
+                prices={item.prices[2]}
                 buttonPressHandler={() => {}}
               />
             </TouchableOpacity>
@@ -220,9 +249,16 @@ const styles = StyleSheet.create({
     borderRadius: BORDERRADIUS.radius_10,
     backgroundColor: COLORS.primaryOrangeHex,
   },
-  flatListConffee: {
+  flatListCoffee: {
     gap: SPACING.space_20,
     paddingVertical: SPACING.space_20,
     paddingHorizontal: SPACING.space_30,
+  },
+  coffeeBeansTitle: {
+    fontFamily: FONTFAMILY.poppins_medium,
+    fontSize: FONTSIZE.size_18,
+    color: COLORS.secondaryLightGreyHex,
+    marginTop: SPACING.space_20,
+    marginLeft: SPACING.space_30,
   },
 });
