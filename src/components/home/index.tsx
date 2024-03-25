@@ -40,8 +40,8 @@ const Home = () => {
   );
   const [searchText, setSearchText] = useState('');
   const [categoryIndex, setCategoryIndex] = useState({
-    index: 1,
-    category: categories[1],
+    index: 0,
+    category: categories[0],
   });
 
   const [sortEdCoffee, setSortedCoffee] = useState(
