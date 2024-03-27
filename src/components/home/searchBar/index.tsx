@@ -6,7 +6,7 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {
   BORDERRADIUS,
   COLORS,
@@ -17,12 +17,23 @@ import {
 
 interface Props {
   searchText: string;
+  searchCoffee: (search: string) => void;
+  resetSearchCoffee: () => void;
   setSearchText: React.Dispatch<React.SetStateAction<string>>;
 }
-const SearchBar: React.FC<Props> = ({searchText, setSearchText}) => {
+const SearchBar: React.FC<Props> = ({
+  searchText,
+  setSearchText,
+  searchCoffee,
+  resetSearchCoffee,
+}) => {
   return (
     <View style={styles.inputContainer}>
-      <TouchableOpacity onPress={() => {}}>
+      <TouchableOpacity
+        onPress={() => {
+          console.log('searhc herre');
+          searchCoffee(searchText);
+        }}>
         <Icon
           style={styles.inputIcon}
           name="search"
@@ -37,10 +48,28 @@ const SearchBar: React.FC<Props> = ({searchText, setSearchText}) => {
       <TextInput
         placeholder="Find your coffee..."
         value={searchText}
-        onChangeText={text => setSearchText(text)}
+        onChangeText={text => {
+          setSearchText(text);
+          searchCoffee(text);
+        }}
         placeholderTextColor={COLORS.primaryLightGreyHex}
         style={styles.textInput}
       />
+      {searchText.length > 0 ? (
+        <TouchableOpacity
+          onPress={() => {
+            resetSearchCoffee();
+          }}>
+          <Icon
+            style={styles.closeIcon}
+            name="close"
+            size={FONTSIZE.size_18}
+            color={COLORS.primaryLightGreyHex}
+          />
+        </TouchableOpacity>
+      ) : (
+        <></>
+      )}
     </View>
   );
 };
@@ -64,5 +93,9 @@ const styles = StyleSheet.create({
     fontFamily: FONTFAMILY.poppins_medium,
     fontSize: FONTSIZE.size_14,
     color: COLORS.primaryWhiteHex,
+  },
+  closeIcon: {
+    margin: SPACING.space_20,
+    fontSize: FONTSIZE.size_16,
   },
 });

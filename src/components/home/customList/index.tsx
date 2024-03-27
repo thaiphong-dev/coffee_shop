@@ -1,4 +1,5 @@
 import {
+  Dimensions,
   FlatList,
   ScrollView,
   StyleSheet,
@@ -20,21 +21,30 @@ interface Props {
   data: any;
   cusStyles?: any;
   listRef: any;
+  navigation: any;
 }
-const CustomList: React.FC<Props> = ({data, cusStyles, listRef}) => {
-  console.log('listRef', listRef);
-
+const CustomList: React.FC<Props> = ({
+  data,
+  cusStyles,
+  listRef,
+  navigation,
+}) => {
   return (
     <>
       <FlatList
         ref={listRef}
+        ListEmptyComponent={
+          <View style={styles.emptyContainer}>
+            <Text style={styles.emptyText}> No Coffee Available</Text>
+          </View>
+        }
         horizontal
         showsHorizontalScrollIndicator={false}
         data={data}
         contentContainerStyle={[styles.flatListCoffee, cusStyles]}
         keyExtractor={item => item.id}
         renderItem={({item}) => (
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.push('Details')}>
             <CoffeeCard
               id={item.id}
               index={item.index as string}
@@ -61,5 +71,19 @@ const styles = StyleSheet.create({
     gap: SPACING.space_20,
     paddingVertical: SPACING.space_20,
     paddingHorizontal: SPACING.space_30,
+  },
+  emptyText: {
+    fontFamily: FONTFAMILY.poppins_semibold,
+    fontSize: FONTSIZE.size_16,
+    color: COLORS.primaryLightGreyHex,
+    borderBottomWidth: 2,
+    marginBottom: SPACING.space_4,
+    paddingBottom: SPACING.space_4,
+  },
+  emptyContainer: {
+    width: Dimensions.get('window').width - SPACING.space_30 * 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: SPACING.space_36 * 2,
   },
 });

@@ -38,7 +38,10 @@ const filterCoffeeData = (category: string, data: any) => {
     return data?.filter((x: any) => x.name === category);
   }
 };
-const Home = () => {
+interface Props {
+  navigation: any;
+}
+const Home: React.FC<Props> = ({navigation}) => {
   const CoffeeList = useStore((state: any) => state.CoffeeList);
   const BeanList = useStore((state: any) => state.BeanList);
 
@@ -57,7 +60,37 @@ const Home = () => {
 
   const listRef: any = useRef<FlatList>();
   const tabBarHeight = useBottomTabBarHeight();
-  const [renderKey, setRenderKey] = useState(1);
+
+  const searchCoffee = (search: string) => {
+    if (search !== '') {
+      listRef?.current?.scrollToOffset({
+        animated: true,
+        offset: 0,
+      });
+      setCategoryIndex({
+        index: 0,
+        category: categories[0],
+      });
+      setSortedCoffee([
+        ...CoffeeList?.filter((x: any) =>
+          x?.name.toLowerCase().includes(search.toLowerCase()),
+        ),
+      ]);
+    }
+  };
+
+  const resetSearchCoffee = () => {
+    listRef?.current?.scrollToOffset({
+      animated: true,
+      offset: 0,
+    });
+    setCategoryIndex({
+      index: 0,
+      category: categories[0],
+    });
+    setSortedCoffee([...CoffeeList]);
+    setSearchText('');
+  };
   return (
     <View style={styles.screenContainer}>
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
@@ -71,7 +104,15 @@ const Home = () => {
         </Text>
 
         {/* search bar  */}
-        <SearchBar searchText={searchText} setSearchText={setSearchText} />
+        <SearchBar
+          searchText={searchText}
+          setSearchText={setSearchText}
+          // coffeeList={CoffeeList}
+          // filterCoffeeData={filterCoffeeData}
+          // setSortedCoffee={setSortedCoffee}
+          searchCoffee={searchCoffee}
+          resetSearchCoffee={resetSearchCoffee}
+        />
 
         {/* category scroller  */}
         <MenuBar
@@ -81,11 +122,15 @@ const Home = () => {
           setSortedCoffee={setSortedCoffee}
           coffeeList={CoffeeList}
           categoryIndex={categoryIndex}
-          setRenderKey={setRenderKey}
         />
 
         {/* coffee flat list  */}
-        <CustomList key={renderKey} listRef={listRef} data={sortEdCoffee} />
+        <CustomList
+          key={categoryIndex.category}
+          listRef={listRef}
+          data={sortEdCoffee}
+          navigation={navigation}
+        />
         <Text style={styles.coffeeBeansTitle}>Coffee Beans</Text>
         {/* coffee beans flat list  */}
         <CustomList
