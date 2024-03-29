@@ -136,6 +136,7 @@ const Home: React.FC<Props> = ({navigation}) => {
         <CustomList
           listRef={listRef}
           data={BeanList}
+          navigation={navigation}
           cusStyles={{marginBottom: tabBarHeight}}
         />
       </ScrollView>

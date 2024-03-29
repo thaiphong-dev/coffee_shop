@@ -20,8 +20,8 @@ import CoffeeCard from '../../common/CoffeeCard';
 interface Props {
   data: any;
   cusStyles?: any;
-  listRef: any;
-  navigation: any;
+  listRef?: any;
+  navigation?: any;
 }
 const CustomList: React.FC<Props> = ({
   data,
@@ -44,7 +44,14 @@ const CustomList: React.FC<Props> = ({
         contentContainerStyle={[styles.flatListCoffee, cusStyles]}
         keyExtractor={item => item.id}
         renderItem={({item}) => (
-          <TouchableOpacity onPress={() => navigation.push('Details')}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.push('Details', {
+                index: item.index,
+                id: item.id,
+                type: item.type,
+              })
+            }>
             <CoffeeCard
               id={item.id}
               index={item.index as string}
