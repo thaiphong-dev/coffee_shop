@@ -8,7 +8,7 @@ import BeansData from '../data/BeansData';
 
 export const useStore = create(
   persist(
-    (set, get) => ({
+    set => ({
       CoffeeList: CoffeeData,
       BeanList: BeansData,
       CartPrice: 0,
@@ -64,6 +64,10 @@ export const useStore = create(
               totalPrice += tempPrice;
             }
             state.CartPrice = totalPrice.toFixed(2).toString();
+            console.log(
+              'Cartlist',
+              state.CartList[state.CartList.length - 1].prices,
+            );
           }),
         ),
       addToFavoriteList: (type: string, id: string) =>
@@ -121,6 +125,48 @@ export const useStore = create(
               }
             }
             state.FavoritesList.splice(spliceIndex, 1);
+          }),
+        ),
+      increaseCartItemQuantity: (id: string, size: string) =>
+        set(
+          produce(state => {
+            for (let i = 0; i < state.CartList.length; i++) {
+              if (state.CartList[i].id === id) {
+                for (let j = 0; j < state.CartList[i].prices.length; j++) {
+                  if (state.CartList[i].prices[j].size === size) {
+                    state.CartList[i].prices[j].quantity++;
+                    break;
+                  }
+                }
+              }
+            }
+          }),
+        ),
+      decreaseCartItemQuantity: (id: string, size: string) =>
+        set(
+          produce(state => {
+            for (let i = 0; i < state.CartList.length; i++) {
+              if (state.CartList[i].id === id) {
+                for (let j = 0; j < state.CartList[i].prices.length; j++) {
+                  if (state.CartList[i].prices[j].size === size) {
+                    if (state.CartList[i].prices.length > 1) {
+                      if (state.CartList[i].prices[i].quantity > 1) {
+                        state.CartList[i].prices[j].quantity--;
+                      } else {
+                        state.CartList[i].prices.splice(j, 1);
+                      }
+                    } else {
+                      if (state.CartList[i].prices[i].quantity > 1) {
+                        state.CartList[i].prices[j].quantity--;
+                      } else {
+                        state.CartList.splice(i, 1);
+                      }
+                    }
+                    break;
+                  }
+                }
+              }
+            }
           }),
         ),
     }),

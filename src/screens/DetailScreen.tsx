@@ -1,8 +1,5 @@
-import {ScrollView, StatusBar, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {useStore} from '../store/store';
-import {COLORS} from '../theme/theme';
-import ImageBackgroundInfo from '../components/common/ImageBackgroundInfo';
 import Details from '../components/detail';
 
 const DetailScreen = ({navigation, route}: any) => {

@@ -4,6 +4,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  ToastAndroid,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -16,6 +17,7 @@ import {
   SPACING,
 } from '../../../theme/theme';
 import CoffeeCard from '../../common/CoffeeCard';
+import {useStore} from '../../../store/store';
 
 interface Props {
   data: any;
@@ -29,6 +31,18 @@ const CustomList: React.FC<Props> = ({
   listRef,
   navigation,
 }) => {
+  const addToCart = useStore((state: any) => state.addToCart);
+  const calculateCartPrice = useStore((state: any) => state.calculateCartPrice);
+
+  const addToCartHandler = (data: any) => {
+    addToCart({...data, prices: [{...data.prices[2], quantity: 1}]});
+    calculateCartPrice();
+    ToastAndroid.showWithGravity(
+      `${data.name} is added to cart`,
+      ToastAndroid.SHORT,
+      ToastAndroid.CENTER,
+    );
+  };
   return (
     <>
       <FlatList
@@ -62,7 +76,9 @@ const CustomList: React.FC<Props> = ({
               special_ingredient={item.special_ingredient}
               average_rating={item.average_rating}
               prices={item.prices[2]}
-              buttonPressHandler={() => {}}
+              buttonPressHandler={() => {
+                addToCartHandler(item);
+              }}
             />
           </TouchableOpacity>
         )}
